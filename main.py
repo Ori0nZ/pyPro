@@ -5,9 +5,9 @@ def menu_display():
             '-----------------------------\n'
             ' Funtion Program:           \n'
             '0. Exit program\n'
-            '1. File count\n'
-            '2. Product View\n'
-            '3. To increase the number\n'
+            '1. File View\n'
+            '2. Product View by name\n'
+            '3. Product View by number\n'
             '4. Add product\n')
     user_choice = input("Type your choice:")
     if(user_choice=='1'):
@@ -24,11 +24,11 @@ def menu_display():
     else:
         menu_display()
 def type_choice():
-    user_choice = input("0 to exit, 1 to menu:")
-    if(user_choice=='0'):
+    user_choice = input("no/N/0 to exit, yes/Y/1 to menu:")
+    if(user_choice=='0' or user_choice.upper()=='N' or user_choice.upper()=='NO'):
         print("Program end!!")
         exit(0)
-    elif(user_choice=='1'):
+    elif(user_choice=='1'or user_choice.upper()=='Y' or user_choice.upper()=='YES'):
         menu_display()
     else:
         print("Type don't valid, again!")
@@ -37,7 +37,8 @@ def file_count():
     onlyfiles = next(os.walk('.'))[2] 
     print('Folder have', len(onlyfiles),"files\n")
     for file in onlyfiles:
-        print(file,'\n')
+        print(file)
+    print('\n')
     type_choice()
 def product_count():
     f = open('products.txt', 'r')
@@ -69,8 +70,19 @@ def product_number():
     type_choice()
 def add_product():
     print('Product infomation: ')
-
-    id = input("Add product ID: ")
+    boolID = True
+    while(boolID):
+        boolID= False
+        id = input("Type the producer ID(primary key): ")
+        f = open('products.txt', 'r')
+        products = f.readlines()
+        list_products= list()
+        for product in products:
+            stringproduct = list(product.split(";"))
+            if(stringproduct[0]== id):
+                boolID = True
+                print("ID used: type difference")
+                break
     name = input("Add product name: ").upper()
     year = input("Add product years: ")
     number = input("Add product number: ")
